@@ -6,8 +6,6 @@ package com.jotunheim.thor.web.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.jotunheim.thor.web.AbstractBaseController;
-
 /**
  * @author zhangle
  *

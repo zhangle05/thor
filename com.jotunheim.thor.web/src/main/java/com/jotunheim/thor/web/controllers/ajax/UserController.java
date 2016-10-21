@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.jotunheim.common.annotation.Login;
 import com.jotunheim.thor.domain.User;
 import com.jotunheim.thor.service.UserService;
-import com.jotunheim.thor.web.AbstractBaseController;
 import com.jotunheim.thor.web.AjaxResult;
+import com.jotunheim.thor.web.controllers.AbstractBaseController;
 
 /**
  * @author zhangle
