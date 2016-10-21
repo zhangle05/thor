@@ -1,0 +1,15 @@
+#set($layout="/layout/web_layout.vm")
+#set($menu="Home")
+#set($title=${msgSource.getMessage("uncaught_exception",null,$locale)})
+
+<div class="text_block">
+    $!{msgSource.getMessage("uncaught_exception",null,$locale)}:<br/>
+    $!{errorMsg} <br/>
+    <!-- for releasse version -->
+    $!{ex}
+    <!-- for debug version -->
+    $!{exception} <br/><br/>
+    #foreach($s in $exception.stackTrace)
+       $!{s}<br/>
+    #end
+</div>

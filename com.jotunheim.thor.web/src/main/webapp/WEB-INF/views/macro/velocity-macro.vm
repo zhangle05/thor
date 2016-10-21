@@ -1,0 +1,3 @@
+#macro(secToMin $sec)
+    $date.toMinutes($math.mul($sec, 1000))
+#end
