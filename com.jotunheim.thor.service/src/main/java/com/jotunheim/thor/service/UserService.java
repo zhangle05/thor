@@ -16,9 +16,11 @@ public interface UserService {
 
     public User findByName(String userName);
 
-    public int addUser(User user);
+    public int addUser(User user) throws Exception;
 
     public int deleteUser(User user);
     
     public UserRole findRoleById(long roleId);
+
+    public int getAllUserCount();
 }

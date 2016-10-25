@@ -46,7 +46,11 @@ public class UserServiceImpl extends AbstractBaseService implements UserService 
     }
 
     @Override
-    public int addUser(User user) {
+    public synchronized int addUser(User user) throws Exception {
+        User exist = findByName(user.getName());
+        if (exist != null) {
+            throw new Exception("User name '" + user.getName() + "' exist.");
+        }
         return userDao.insert(user);
     }
 
@@ -58,6 +62,12 @@ public class UserServiceImpl extends AbstractBaseService implements UserService 
     @Override
     public UserRole findRoleById(long roleId) {
         return userRoleDao.selectByPrimaryKey(roleId);
+    }
+
+    @Override
+    public int getAllUserCount() {
+        UserExample example = new UserExample();
+        return userDao.countByExample(example);
     }
 
 }

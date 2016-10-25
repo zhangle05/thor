@@ -18,6 +18,7 @@ public class UserServiceTest extends AbstractSpringTest {
     private UserService userService;
 
     private static final String TEST_NAME = "test-a";
+    private static final String TEST_NAME2 = "test-b";
     private static long TEST_ID = 1L;
 
     @Before
@@ -33,6 +34,7 @@ public class UserServiceTest extends AbstractSpringTest {
         if (user == null) {
             // insert the user
             User u = new User();
+            u.setName(TEST_NAME2);
             userService.addUser(u);
             TEST_ID = u.getId();
         }
@@ -64,6 +66,29 @@ public class UserServiceTest extends AbstractSpringTest {
     public void testFindById() throws Exception {
         User user = userService.findById(TEST_ID);
         Assert.notNull(user);
+    }
+
+    @Test
+    public void testAdd() throws Exception {
+        int oldCount = userService.getAllUserCount();
+        User user = new User();
+        user.setName(TEST_NAME);
+        try {
+            userService.addUser(user);
+        } catch (Exception ignore) {
+            logger.info(ignore.getMessage());
+        }
+        int newCount = userService.getAllUserCount();
+        Assert.isTrue(oldCount == newCount);
+        user = userService.findByName(TEST_NAME);
+        Assert.notNull(user);
+        int result = userService.deleteUser(user);
+        Assert.isTrue(result == 1);
+        newCount = userService.getAllUserCount();
+        Assert.isTrue(oldCount == (newCount + 1));
+        userService.addUser(user);
+        newCount = userService.getAllUserCount();
+        Assert.isTrue(oldCount == newCount);
     }
 
     @Test

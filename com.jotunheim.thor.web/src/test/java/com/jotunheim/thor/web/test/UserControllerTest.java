@@ -31,7 +31,7 @@ public class UserControllerTest extends AbstractSpringTest {
 
     @Test
     public void testFindById() throws Exception {
-        AjaxResult result = userController.findUserById(1L);
+        AjaxResult result = userController.getUserById(1L);
         Assert.isTrue(result.getCode() == AjaxResult.SUCCESS);
     }
 
