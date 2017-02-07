@@ -1,5 +1,9 @@
 target
 bin
+bower_components
+node_modules
+dist
+
 .classpath
 .project
 
