@@ -1,1 +1,1 @@
-fis3 release deploy -d ../webapp
+fis3 release -d ../webapp
