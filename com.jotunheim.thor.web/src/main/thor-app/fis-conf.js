@@ -67,28 +67,22 @@ fis.match ('{/static/**.js,/node_modules/**}', {
 fis.match ('::package', {
     // 本项目为纯前端项目，所以用 loader 编译器加载，
     // 如果用后端运行时框架，请不要使用。
-    optimizer: fis.plugin('uglify-js'),
     postpackager:fis.plugin
     ('loader',{
         allInOne:false,
         useInlineMap: false
-    })
+    }),
     // 更多用法请参考： https://github.com/fex-team/fis3-packager-deps-pack
-/*    packager: fis.plugin
+    packager: fis.plugin
     ('deps-pack', {
-        'pkg/react.js':
-        [
-        'node_modules/react/dist/react.min.js',
-        'node_modules/react-dom/dist/react-dom.min.js'
-        ],
-        'pkg/index.js': // 当有多条时，请用数组
+        'index.js': // 当有多条时，请用数组
         [
         'static/mod.js',
         'modules/index.jsx',
-//        'modules/index.jsx:deps', // 以及其所有依赖
+        'modules/index.jsx:deps', // 以及其所有依赖
         ]
     })
-*/
+
 });
 
 
