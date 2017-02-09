@@ -1,8 +1,7 @@
-// fis.set('project.files', '/index.html'); // 按需编译。
-
 fis.match('*.{js,css,png}', {
   useHash: false
 });
+
 // 设置成是模块化 js
 fis.match('/{node_modules,modules}/**.{js,jsx}', {
     isMod: true
@@ -41,65 +40,60 @@ fis.match('*.less', {
     postprocessor: fis.plugin('autoprefixer')
 });
 
-fis.match('::package', {
-    // 本项目为纯前端项目，所以用 loader 编译器加载，
-    // 如果用后端运行时框架，请不要使用。
-    postpackager: fis.plugin('loader', {
-        useInlineMap: true
-    })
-});
-
-fis.match('*.js', {
-    // fis-optimizer-uglify-js 插件进行压缩，已内置
-    optimizer: fis.plugin('uglify-js')
-});
-
-fis.match('{*.less,*.css}', {
-    // fis-optimizer-clean-css 插件进行压缩，已内置
-    optimizer: fis.plugin('clean-css')
-});
-
-fis.match('*.png', {
-    // fis-optimizer-png-compressor 插件进行压缩，已内置
-    optimizer: fis.plugin('png-compressor')
-});
-
 fis.match('{*.log,*.sh,package.json}', {
     release: false
 });
 
-fis.match ('/static/**.js', {
-    release: '/js/thor/$&'
-}).match ('*.{js,jsx}', { // 对 js 做 uglify 压缩。
+fis.match ('*.{js,jsx,js.map}', { // 对 js 做 uglify 压缩。
     optimizer: fis.plugin('uglify-js'),
-    release:'/js/thor'
-}).match ('*.css',{
+    release: '/js/thor/$&'
+}).match ('*.{css,less}',{
+    // fis-optimizer-clean-css 插件进行压缩，已内置
     optimizer: fis.plugin('clean-css'),
     useSptite:false,
-    release:'/css/thor'
+    release: '/css/thor/$&'
 }).match ('/images/**.png',{
-    release:'/images/thor/$&'
-}).match ('index.html',{
-    release:"/html/thor"
-}).match ('::package', {
+    // fis-optimizer-png-compressor 插件进行压缩，已内置
+    optimizer: fis.plugin('png-compressor'),
+    release: '/images/thor/$&'
+}).match ('index.html', {
+    release: '/html/index.html'
+});
+
+fis.match ('{/static/**.js,/node_modules/**}', {
+    release: '/js/3rd/$&'
+});
+
+fis.match ('::package', {
+    // 本项目为纯前端项目，所以用 loader 编译器加载，
+    // 如果用后端运行时框架，请不要使用。
+    optimizer: fis.plugin('uglify-js'),
     postpackager:fis.plugin
     ('loader',{
-        allInOne:true
-    }),
+        allInOne:false,
+        useInlineMap: false
+    })
     // 更多用法请参考： https://github.com/fex-team/fis3-packager-deps-pack
-    packager: fis.plugin
+/*    packager: fis.plugin
     ('deps-pack', {
-        'pkg/index.js': /*当有多条时，请用数组*/
+        'pkg/react.js':
+        [
+        'node_modules/react/dist/react.min.js',
+        'node_modules/react-dom/dist/react-dom.min.js'
+        ],
+        'pkg/index.js': // 当有多条时，请用数组
         [
         'static/mod.js',
         'modules/index.jsx',
-        'modules/index.jsx:deps', // 以及其所有依赖
+//        'modules/index.jsx:deps', // 以及其所有依赖
         ]
     })
+*/
 });
 
-// 请用 fis3 release deploy 来启用。
-fis.media('debug').match('*.{js,css,png}', {
+
+// 请用 fis3 release debug 来启用。
+fis.media('debug').match('*.{js,css,less,png}', {
     useHash: false,
     useSprite: false,
     optimizer: null
